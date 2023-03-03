@@ -9,6 +9,8 @@ import logging
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+from_dir = "C:/Users/seane/Downloads"
+
 class FileEventHandler(FileSystemEventHandler):
     def on_created(self, event):
         print(f"Hey, {event.src_path} has been created!")
@@ -19,6 +21,12 @@ class FileEventHandler(FileSystemEventHandler):
     def on_moved(self, event):
         print(f"Someone moved, {event.src_path}! to {event.dest_path}")
 
+event_handler = FileEventHandler()
+observer = Observer()
+
+# Schedule the Observer
+observer.schedule(event_handler, from_dir, recursive=True)
+observer.start()
 try:
     while True:
         time.sleep(2)
